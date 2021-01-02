@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/Search.css') }}">
+    <script src="{{ url_for('static', filename = 'js/Search.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    <main role="main" class=".container-fluid" style="margin: 0 15px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post" class="form-inline my-2 my-lg-0" action="{{ url_for('Search') }}"
+                      style="position:absolute;right:0;bottom: 10px; margin: 15px 10px">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                           name="org" id="org">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <form method="post" action="{{ url_for('Search') }}">
+                    <div class="changeDiv">
+                        <a>Organism：</a>
+                        <input type="text" id="org" name="org" list="orglist">
+                        <datalist id="orglist">
+                            <option>Homo sapiens</option>
+                            <option>Mus musculus</option>
+                        </datalist>
+                    </div>
+                    <br>
+                    <div>
+                        <a>Organoid Source:</a>
+                        <input type="text" id="src" name="src" list="srclist">
+                        <datalist id="srclist">
+                            <option>iPSC</option>
+                            <option>MS</option>
+                            <option>ES</option>
+                            <option>tissue</option>
+                            <option>Others</option>
+                        </datalist>
+                    </div>
+                    <br>
+                    <div>
+                        <a>Experiment type:</a>
+                        <input type="text" id="exp_type" name="exp_type" list="explist">
+                        <datalist id="explist">
+                            <option>Expression profiling by array</option>
+                            <option>Expression profiling by high throughput sequencing</option>
+                            <option>Genome binding/occupancy profiling by high throughput sequencing</option>
+                            <option>Genome variation profiling by genome tiling array</option>
+                            <option>Genome variation profiling by high throughput sequencing</option>
+                            <option>Genome variation profiling by SNP array</option>
+                            <option>Methylation profiling by array</option>
+                            <option>Methylation profiling by genome tiling array</option>
+                            <option>Methylation profiling by high throughput sequencing</option>
+                            <option>Non-coding RNA profiling by array</option>
+                            <option>Other</option>
+                        </datalist>
+                    </div>
+                    <br>
+                    <div>
+                        <a>Platform:</a>
+                        <input type="text" id="pltf" name="pltf" list="pltflist">
+                        <datalist id="pltflist">
+                            <option>Affymetrix Human Genome</option>
+                        </datalist>
+                    </div>
+                    <br>
+                    <div>
+                        <a>Organoid type:</a>
+                        <input type="text" id="ort" name="ort" list="ortflist">
+                        <datalist id="ortflist">
+                            <option>Brain</option>
+                            <option>Liver</option>
+                        </datalist>
+                    </div>
+                    <br>
+                    <button type="submit" value="Submit">Submit</button>
+                </form>
+            </div>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">GSM</th>
+                        <th scope="col">Platform</th>
+                        <th scope="col">Source name</th>
+                        <th scope="col">Characteristics</th>
+                        <th scope="col">GSE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in gsm_data.items %}
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#GSMModal">
+                                    {{ i.GSM_num }}
+                                </button>
+                                <div class="modal fade" id="GSMModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{ i.GSM_num }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <dl>
+                                                    <ul>{{ i.Status }}</ul>
+                                                    <ul>{{ i.Source_name }}</ul>
+                                                    <ul>{{ i.Organism }}</ul>
+                                                    <ul>{{ i.Characteristics }}</ul>
+                                                    <ul>{{ i.Extracted_molecule }}</ul>
+                                                    <ul>{{ i.Platform }}</ul>
+                                                    <ul>{{ i.Experiment_type }}</ul>
+                                                    <ul>
+                                                        <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSM_num }}">{{ i.GSM_num }}</a>
+                                                    </ul>
+                                                </dl>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ i.Platform }}</td>
+                            <td>{{ i.Source_name }}</td>
+                            <td>{{ i.Characteristics }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#GSEModal">
+                                    {{ i.GSE_num }}
+                                </button>
+                                <div class="modal fade" id="GSEModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">{{ i.GSE_num }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl>
+                                                <ul>{{ i.gse_en.Status }}</ul>
+                                                <ul>{{ i.gse_en.Title }}</ul>
+                                                <ul>{{ i.gse_en.Organism }}</ul>
+                                                <ul>{{ i.gse_en.Experiment_type }}</ul>
+                                                <ul>{{ i.gse_en.Summary }}</ul>
+                                                <ul>{{ i.gse_en.Overall_design }}</ul>
+                                                <ul>{{ i.gse_en.Platforms }}</ul>
+                                                <ul>{{ i.gse_en.Samples }}</ul>
+
+                                                <ul>
+                                                    <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSE_num }}">{{ i.GSE_num }}</a>
+                                                </ul>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-sm-5"
+                     style="font-size: medium; color: dodgerblue; text-align: right; margin-top: 8px;">
+                    <p>Page {{ gsm_data.page }} of {{ gsm_data.total }} results</p>
+                </div>
+                <div class="col-sm-7">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                {% if gsm_data.has_prev %}
+                                    <a class="page-link"
+                                       href="{{ url_for('Search', org=org, src=src) }}?page={{ gsm_data.prev_num }}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                {% else %}
+                                    <a class="page-link disabled" aria-label="Previous"><span
+                                            aria-hidden="true">&laquo;</span></a>
+                                {% endif %}
+                            </li>
+                            {% for page in gsm_data.iter_pages() %}
+                                {% if page %}
+                                    {% if page == gsm_data.page %}
+                                        <li class="page-item active"><a class="page-link"
+                                                                        href="#">{{ page }} <span
+                                                class="sr-only">(current)</span>
+                                        </a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="{{ url_for('Search', page=page, org=org, src=src) }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            <li class="page-item">
+                                {% if gsm_data.has_next %}
+                                    <a class="page-link"
+                                       href="{{ url_for('Search', org=org, src=src) }}?page={{ gsm_data.next_num }}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                {% else %}
+                                    <a class="page-link disabled" aria-label="Next"><span
+                                            aria-hidden="true">&raquo;</span></a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+{% endblock %}

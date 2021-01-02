@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Detail{% endblock %}
+
+{% block head %}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/Data.css') }}">#}
+{% endblock %}
+
+{% block main %}
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post" class="form-inline my-2 my-lg-0" action="{{ url_for('Data') }}"
+                      style="position:absolute;right:0;bottom: 10px; margin: 15px 10px">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                           name="title" id="title">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <div class="result">
+                    <h3 class="page-title">{{ content.title }}</h3>
+                    <p>{{ content.authors }}</p>
+                    <p><a href="https://pubmed.ncbi.nlm.nih.gov/{{ content.pmid }}">PMID:&nbsp{{ content.pmid }}</a></p>
+                    <h4>Abstract:</h4>
+                    <p>{{ content.summary }}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

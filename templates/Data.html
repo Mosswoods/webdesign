@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Data{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/Data.css') }}">
+    <script src="{{ url_for('static', filename = 'js/popper.min.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post" class="form-inline my-2 my-lg-0" action="{{ url_for('Data') }}"
+                      style="position:absolute;right:0;bottom: 10px; margin: 15px 10px">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                           name="title" id="title">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"
+                        data-placement="bottom" data-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus.">
+                    Popover on bottom
+                </button>
+            </div>
+            <div class="col-sm-9">
+                <div class="result">
+                    {% for i in quote.items %}
+                        <dl>
+                            <dd id="title"><a href="{{ url_for('detail', pmid=i.pmid) }}">{{ i.title }}</a></dd>
+                            <dd class="auth">Authors:{{ i.authors }}</dd>
+                            <dd class="auth">PMID:{{ i.pmid }}</dd>
+                        </dl>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"
+                         style="font-size: medium; color: dodgerblue; text-align: right; margin-top: 8px;">
+                        <p>Page {{ quote.page }} of {{ quote.total }} results</p>
+                    </div>
+                    <div class="col-sm-7">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    {% if quote.has_prev %}
+                                        <a class="page-link"
+                                           href="{{ url_for('Data', title=title) }}?page={{ quote.prev_num }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="page-link disabled" aria-label="Previous"><span
+                                                aria-hidden="true">&laquo;</span></a>
+                                    {% endif %}
+                                </li>
+                                {% for page in quote.iter_pages() %}
+                                    {% if page %}
+                                        {% if page == quote.page %}
+                                            <li class="page-item active"><a class="page-link"
+                                                                            href="#">{{ page }} <span
+                                                    class="sr-only">(current)</span>
+                                            </a></li>
+                                        {% else %}
+                                            <li class="page-item"><a class="page-link"
+                                                                     href="{{ url_for('Data', page=page, title=title) }}">{{ page }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                <li class="page-item">
+                                    {% if quote.has_next %}
+                                        <a class="page-link"
+                                           href="{{ url_for('Data', title=title) }}?page={{ quote.next_num }}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="page-link disabled" aria-label="Next"><span
+                                                aria-hidden="true">&raquo;</span></a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
