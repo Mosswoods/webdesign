@@ -19,34 +19,29 @@
                 </form>
             </div>
             <div class="col-sm-3">
-                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"
-                        data-placement="bottom" data-content="Vivamus
-sagittis lacus vel augue laoreet rutrum faucibus.">
-                    Popover on bottom
-                </button>
             </div>
             <div class="col-sm-9">
                 <div class="result">
-                    {% for i in quote.items %}
+                    {% for i in gse.items %}
                         <dl>
-                            <dd id="title"><a href="{{ url_for('detail', pmid=i.pmid) }}">{{ i.title }}</a></dd>
-                            <dd class="auth">Authors:{{ i.authors }}</dd>
-                            <dd class="auth">PMID:{{ i.pmid }}</dd>
+                            <dd id="title"><a href="{{ url_for('detail', gse_num=i.GSE_num) }}">{{ i.Title }}</a></dd>
+                            <dd class="auth">Authors:{{ i.Status }}</dd>
+                            <dd class="auth">PMID:{{ i.GSE_num }}</dd>
                         </dl>
                     {% endfor %}
                 </div>
                 <div class="row">
                     <div class="col-sm-5"
                          style="font-size: medium; color: dodgerblue; text-align: right; margin-top: 8px;">
-                        <p>Page {{ quote.page }} of {{ quote.total }} results</p>
+                        <p>Page {{ gse.page }} of {{ gse.total }} results</p>
                     </div>
                     <div class="col-sm-7">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    {% if quote.has_prev %}
+                                    {% if gse.has_prev %}
                                         <a class="page-link"
-                                           href="{{ url_for('Data', title=title) }}?page={{ quote.prev_num }}"
+                                           href="{{ url_for('Data', title=title) }}?page={{ gse.prev_num }}"
                                            aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
@@ -55,9 +50,9 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
                                                 aria-hidden="true">&laquo;</span></a>
                                     {% endif %}
                                 </li>
-                                {% for page in quote.iter_pages() %}
+                                {% for page in gse.iter_pages() %}
                                     {% if page %}
-                                        {% if page == quote.page %}
+                                        {% if page == gse.page %}
                                             <li class="page-item active"><a class="page-link"
                                                                             href="#">{{ page }} <span
                                                     class="sr-only">(current)</span>
@@ -72,9 +67,9 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
                                     {% endif %}
                                 {% endfor %}
                                 <li class="page-item">
-                                    {% if quote.has_next %}
+                                    {% if gse.has_next %}
                                         <a class="page-link"
-                                           href="{{ url_for('Data', title=title) }}?page={{ quote.next_num }}"
+                                           href="{{ url_for('Data', title=title) }}?page={{ gse.next_num }}"
                                            aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>

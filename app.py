@@ -33,7 +33,6 @@ def Search(limit=10, src=None, org=None, exp_type=None, pltf=None, ort=None):
                                  GSM.Platform.like("%" + pltf + "%") if pltf is not None else "",
                                  GSM.Characteristics.like("%" + ort + "%") if ort is not None else "")
     gsm_data = gsm_datas.paginate(page=page, per_page=limit)
-    # print("org:", org, " src: ", src)
     return render_template('Search.html', gsm_data=gsm_data, src=src, org=org, exp_type=exp_type, pltf=pltf, ort=ort)
 
 
@@ -48,15 +47,15 @@ def Data(limit=10, title=None):
             title = ""
     print(title)
     page = int(request.args.get('page', 1))
-    quotes = Quotes.query.filter(Quotes.title.like("%" + title + "%") if title is not None else "")
-    quote = quotes.paginate(page=page, per_page=limit)
+    gses = GSE.query.filter(GSE.Title.like("%" + title + "%") if title is not None else "")
+    gse = gses.paginate(page=page, per_page=limit)
 
-    return render_template('Data.html', quote=quote, title=title)
+    return render_template('Data.html', gse=gse, title=title)
 
 
-@app.route('/detail/<pmid>/')
-def detail(pmid):
-    content = Quotes.query.filter(Quotes.pmid == pmid).first()
+@app.route('/detail/<gse_num>/')
+def detail(gse_num):
+    content = GSE.query.filter(GSE.GSE_num == gse_num).first()
 
     return render_template('detail.html', content=content)
 
