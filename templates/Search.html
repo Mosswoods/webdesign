@@ -19,6 +19,7 @@
                 </form>
             </div>
             <div class="col-sm-3">
+                <br>
                 <form method="post" action="{{ url_for('Search') }}">
                     <div class="changeDiv">
                         <a>Organism：</a>
@@ -64,6 +65,7 @@
                         <input type="text" id="pltf" name="pltf" list="pltflist">
                         <datalist id="pltflist">
                             <option>Affymetrix Human Genome</option>
+                            <option>Illumina HiSeq</option>
                         </datalist>
                     </div>
                     <br>
@@ -142,41 +144,41 @@
                                     {{ i.GSE_num }}
                                 </button>
                                 <div class="modal fade" id="GSEModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">{{ i.GSE_num }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <dl>
-                                                <ul>{{ i.gse_en.Status }}</ul>
-                                                <ul>{{ i.gse_en.Title }}</ul>
-                                                <ul>{{ i.gse_en.Organism }}</ul>
-                                                <ul>{{ i.gse_en.Experiment_type }}</ul>
-                                                <ul>{{ i.gse_en.Summary }}</ul>
-                                                <ul>{{ i.gse_en.Overall_design }}</ul>
-                                                <ul>{{ i.gse_en.Platforms }}</ul>
-                                                <ul>{{ i.gse_en.Samples }}</ul>
+                                     aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{ i.GSE_num }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <dl>
+                                                    <ul>{{ i.gse_en.Status }}</ul>
+                                                    <ul>{{ i.gse_en.Title }}</ul>
+                                                    <ul>{{ i.gse_en.Organism }}</ul>
+                                                    <ul>{{ i.gse_en.Experiment_type }}</ul>
+                                                    <ul>{{ i.gse_en.Summary }}</ul>
+                                                    <ul>{{ i.gse_en.Overall_design }}</ul>
+                                                    <ul>{{ i.gse_en.Platforms }}</ul>
+                                                    <ul>{{ i.gse_en.Samples }}</ul>
 
-                                                <ul>
-                                                    <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSE_num }}">{{ i.GSE_num }}</a>
-                                                </ul>
-                                            </dl>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                Close
-                                            </button>
+                                                    <ul>
+                                                        <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSE_num }}">{{ i.GSE_num }}</a>
+                                                    </ul>
+                                                </dl>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </td>
 
                         </tr>
@@ -195,7 +197,7 @@
                             <li class="page-item">
                                 {% if gsm_data.has_prev %}
                                     <a class="page-link"
-                                       href="{{ url_for('Search', org=org, src=src) }}?page={{ gsm_data.prev_num }}"
+                                       href="{{ url_for('Search', src=src, org=org, exp_type=exp_type, pltf=pltf, ort=ort) }}?page={{ gsm_data.prev_num }}"
                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
@@ -213,7 +215,7 @@
                                         </a></li>
                                     {% else %}
                                         <li class="page-item"><a class="page-link"
-                                                                 href="{{ url_for('Search', page=page, org=org, src=src) }}">{{ page }}</a>
+                                                                 href="{{ url_for('Search', page=page, src=src, org=org, exp_type=exp_type, pltf=pltf, ort=ort) }}">{{ page }}</a>
                                         </li>
                                     {% endif %}
                                 {% else %}
@@ -223,7 +225,7 @@
                             <li class="page-item">
                                 {% if gsm_data.has_next %}
                                     <a class="page-link"
-                                       href="{{ url_for('Search', org=org, src=src) }}?page={{ gsm_data.next_num }}"
+                                       href="{{ url_for('Search', src=src, org=org, exp_type=exp_type, pltf=pltf, ort=ort) }}?page={{ gsm_data.next_num }}"
                                        aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
@@ -236,7 +238,6 @@
                     </nav>
                 </div>
             </div>
-        </div>
         </div>
     </main>
 {% endblock %}
