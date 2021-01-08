@@ -138,48 +138,49 @@
                             <td>{{ i.Platform }}</td>
                             <td>{{ i.Source_name }}</td>
                             <td>{{ i.Characteristics }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#GSEModal">
-                                    {{ i.GSE_num }}
-                                </button>
-                                <div class="modal fade" id="GSEModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">{{ i.GSE_num }}</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <dl>
-                                                    <ul>{{ i.gse_en.Status }}</ul>
-                                                    <ul>{{ i.gse_en.Title }}</ul>
-                                                    <ul>{{ i.gse_en.Organism }}</ul>
-                                                    <ul>{{ i.gse_en.Experiment_type }}</ul>
-                                                    <ul>{{ i.gse_en.Summary }}</ul>
-                                                    <ul>{{ i.gse_en.Overall_design }}</ul>
-                                                    <ul>{{ i.gse_en.Platforms }}</ul>
-                                                    <ul>{{ i.gse_en.Samples }}</ul>
-
-                                                    <ul>
-                                                        <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSE_num }}">{{ i.GSE_num }}</a>
-                                                    </ul>
-                                                </dl>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                    Close
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><a href="{{ url_for('detail', gse_num=i.GSE_num) }}">{{ i.GSE_num }}</a></td>
+{#                            <td>#}
+{#                                <button type="button" class="btn btn-primary" data-toggle="modal"#}
+{#                                        data-target="#GSEModal">#}
+{#                                    {{ i.GSE_num }}#}
+{#                                </button>#}
+{#                                <div class="modal fade" id="GSEModal" tabindex="-1" role="dialog"#}
+{#                                     aria-labelledby="exampleModalLabel"#}
+{#                                     aria-hidden="true">#}
+{#                                    <div class="modal-dialog modal-dialog-centered">#}
+{#                                        <div class="modal-content">#}
+{#                                            <div class="modal-header">#}
+{#                                                <h5 class="modal-title" id="exampleModalLabel">{{ i.GSE_num }}</h5>#}
+{#                                                <button type="button" class="close" data-dismiss="modal"#}
+{#                                                        aria-label="Close">#}
+{#                                                    <span aria-hidden="true">&times;</span>#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                            <div class="modal-body">#}
+{#                                                <dl>#}
+{#                                                    <ul>{{ i.gse_en.Status }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Title }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Organism }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Experiment_type }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Summary }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Overall_design }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Platforms }}</ul>#}
+{#                                                    <ul>{{ i.gse_en.Samples }}</ul>#}
+{##}
+{#                                                    <ul>#}
+{#                                                        <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ i.GSE_num }}">{{ i.GSE_num }}</a>#}
+{#                                                    </ul>#}
+{#                                                </dl>#}
+{#                                            </div>#}
+{#                                            <div class="modal-footer">#}
+{#                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">#}
+{#                                                    Close#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </td>#}
 
                         </tr>
                     {% endfor %}

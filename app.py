@@ -21,7 +21,7 @@ def Home():
 
 
 @app.route('/Search/', methods=['POST', 'GET'])
-@app.route('/Search/<re(r".*"):src>/<re(r".*"):org>/<re(r".*"):exp_type>/<re(r".*"):pltf>/<re(r".*"):ort>',
+@app.route('/Search/<re(r".*"):org>/<re(r".*"):src>/<re(r".*"):exp_type>/<re(r".*"):pltf>/<re(r".*"):ort>',
            methods=['POST', 'GET'])
 def Search(limit=10, src="", org="", exp_type="", pltf="", ort=""):
     # if org:
@@ -55,7 +55,7 @@ def Search(limit=10, src="", org="", exp_type="", pltf="", ort=""):
     #     if ort is None:
     #         ort = ""
     org = org if org else request.form.get('org') if request.form.get('org') is not None else ""
-    src = src if org else request.form.get('src') if request.form.get('src') is not None else ""
+    src = src if src else request.form.get('src') if request.form.get('src') is not None else ""
     exp_type = exp_type if exp_type else request.form.get('exp_type') if request.form.get('exp_type') is not None else ""
     pltf = pltf if pltf else request.form.get('pltf') if request.form.get('pltf') is not None else ""
     ort = ort if ort else request.form.get('ort') if request.form.get('ort') is not None else ""
@@ -66,8 +66,8 @@ def Search(limit=10, src="", org="", exp_type="", pltf="", ort=""):
     # Experiment type(测序类型): exp_type  筛选GSM.Experiment_type
     # Platform(平台): pltf  筛选GSM.Platform
     # Organoid type(类器官类型）: ort  筛选GSM.Characteristics
-    gsm_datas = GSM.query.filter(GSM.Source_name.like("%" + src + "%") if src is not None else "",
-                                 GSM.Organism.like("%" + org + "%") if org is not None else "",
+    gsm_datas = GSM.query.filter(GSM.Organism.like("%" + org + "%") if org is not None else "",
+                                 GSM.Source_name.like("%" + src + "%") if src is not None else "",
                                  GSM.Experiment_type.like("%" + exp_type + "%") if exp_type is not None else "",
                                  GSM.Platform.like("%" + pltf + "%") if pltf is not None else "",
                                  GSM.Characteristics.like("%" + ort + "%") if ort is not None else "")
